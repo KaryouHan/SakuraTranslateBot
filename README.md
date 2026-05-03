@@ -1,27 +1,33 @@
 # SakuraTranslateBot
 
-SakuraTranslateBot is a Telegram tool that automatically translates Chinese messages into Japanese.
+SakuraTranslateBot automatically translates outgoing Chinese Telegram messages into Japanese and appends the translation under the original message.
 
-It is useful for Japanese learning because it lets you write Chinese naturally and immediately compare it with a Japanese translation in the same Telegram message.
+It is designed for daily Telegram conversations and Japanese learning. You can write naturally in Chinese, then compare your sentence with a Japanese translation right away.
 
-Although the project name contains `Bot`, this project is **not** a Telegram bot account. It does not use Telegram bot tokens. Instead, it uses your own Telegram account through Telegram API ID / API Hash and edits your outgoing messages.
+## Features
 
-## What It Does
+- Detects outgoing Chinese messages in Telegram.
+- Translates Chinese into Japanese with a configurable model API.
+- Edits the original Telegram message and adds the Japanese translation below it.
+- Ignores non-Chinese messages and slash commands.
+- Keeps the translation output clean without extra emoji or emoticons.
 
-When you send a Chinese message in Telegram, `userbot.py` detects your outgoing message, translates it into Japanese, and edits the original message so the Japanese translation appears under the Chinese text.
-
-Example:
+Example output:
 
 ```text
 小龙虾给我做的
 > ザリガニが私に作ってくれたんだ
 ```
 
-## Telegram API Configuration
+## Requirements
 
-This project requires a Telegram API application for your own account, not a Telegram bot token.
+- Python 3.10+
+- Telegram API ID and API Hash
+- A model API key, such as Google Gemini or another OpenAI-compatible provider
 
-Create one here:
+## Telegram API ID / API Hash
+
+Create a Telegram API application here:
 
 ```text
 https://my.telegram.org/apps
@@ -34,23 +40,21 @@ App title: SakuraTranslateBot
 Short name: sakuratranslatebot
 Platform: Desktop
 URL: leave empty
-Description: A Chinese-to-Japanese translation tool for Telegram and Japanese learning.
+Description: Chinese-to-Japanese translation tool for Telegram and Japanese learning.
 ```
 
-After creating the application, Telegram will show:
+After creating the application, copy these values:
 
 ```env
 TELEGRAM_API_ID=your_telegram_api_id
 TELEGRAM_API_HASH=your_telegram_api_hash
 ```
 
-These values are required in your `.env` file.
-
 ## Model API Configuration
 
 SakuraTranslateBot uses an OpenAI-compatible chat completion API.
 
-The current recommended setup uses Google Gemini:
+Default Gemini example:
 
 ```env
 LLM_API_KEY=your_model_api_key
@@ -58,7 +62,23 @@ LLM_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai/
 LLM_MODEL=gemini-2.5-flash-lite
 ```
 
-You can use another OpenAI-compatible provider by changing `LLM_BASE_URL`, `LLM_MODEL`, and `LLM_API_KEY`.
+You can use a different OpenAI-compatible provider by changing:
+
+```env
+LLM_API_KEY=
+LLM_BASE_URL=
+LLM_MODEL=
+```
+
+## Installation
+
+```bash
+git clone https://github.com/KaryouHan/SakuraTranslateBot.git
+cd SakuraTranslateBot
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
 
 ## `.env` Setup
 
@@ -68,7 +88,7 @@ Copy the example file:
 cp .env.example .env
 ```
 
-Then edit `.env`:
+Edit `.env`:
 
 ```env
 LLM_API_KEY=your_model_api_key
@@ -81,41 +101,26 @@ TELEGRAM_API_HASH=your_telegram_api_hash
 TELEGRAM_SESSION_NAME=sakura_translate
 ```
 
-Important:
-
-- Do not commit `.env`.
-- Do not commit `*.session` files.
-- The session file stores your Telegram login state and should be treated like a password.
-
-## Installation
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
-
 ## Run
-
-Run the user client mode:
 
 ```bash
 source .venv/bin/activate
 python userbot.py
 ```
 
-On the first run, Telegram will ask for:
+On the first run, Telegram asks for your phone number and login code. If two-step verification is enabled, it will also ask for your password.
 
-1. Your phone number.
-2. The login code sent by Telegram.
-3. Your two-step verification password, if enabled.
+After login, SakuraTranslateBot starts watching outgoing Telegram messages. Send a Chinese message in Telegram and the Japanese translation will be added under it automatically.
 
-After login, a local session file will be created. Future runs usually do not require logging in again.
+## Configuration Reference
 
-## Notes
-
-- Only Chinese messages are translated.
-- Non-Chinese messages are ignored.
-- Slash commands are ignored.
-- The translation output is Japanese only.
-- Emoji and emoticons are not added to the translation.
+| Variable | Description |
+| --- | --- |
+| `LLM_API_KEY` | API key for the model provider |
+| `LLM_BASE_URL` | OpenAI-compatible API base URL |
+| `LLM_MODEL` | Model name used for translation |
+| `SOURCE_LANGUAGE` | Source language, default `Chinese` |
+| `TARGET_LANGUAGE` | Target language, default `Japanese` |
+| `TELEGRAM_API_ID` | Telegram API application ID |
+| `TELEGRAM_API_HASH` | Telegram API application hash |
+| `TELEGRAM_SESSION_NAME` | Local Telegram session name |
