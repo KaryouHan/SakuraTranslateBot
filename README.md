@@ -4,7 +4,7 @@ SakuraTranslateBot is a Telegram tool that automatically translates Chinese mess
 
 It is useful for Japanese learning because it lets you write Chinese naturally and immediately compare it with a Japanese translation in the same Telegram message.
 
-Although the project name contains `Bot`, this project is **not** a Telegram BotFather bot. It does not use a Telegram bot account. Instead, it uses your own Telegram account through Telegram API ID / API Hash and edits your outgoing messages.
+Although the project name contains `Bot`, this project is **not** a Telegram bot account. It does not use Telegram bot tokens. Instead, it uses your own Telegram account through Telegram API ID / API Hash and edits your outgoing messages.
 
 ## What It Does
 
@@ -19,7 +19,7 @@ Example:
 
 ## Telegram API Configuration
 
-This project requires a Telegram API application, not a BotFather bot.
+This project requires a Telegram API application for your own account, not a Telegram bot token.
 
 Create one here:
 
