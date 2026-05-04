@@ -4,6 +4,10 @@ SakuraTranslateBot automatically translates outgoing Chinese Telegram messages i
 
 It is designed for daily Telegram conversations and Japanese learning. You can write naturally in Chinese, then compare your sentence with a Japanese translation right away.
 
+## Demo
+
+![SakuraTranslateBot demo](assets/demo.png)
+
 ## Features
 
 - Detects outgoing Chinese messages in Telegram.
